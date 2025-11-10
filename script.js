@@ -1,36 +1,45 @@
-// Importa o componente (simulação com fetch)
-fetch('/component/button')
-  .then(res => res.json())
-  .then(buttonComponent => {
-    const botoes = [
-      '7', '8', '9', '/',
-      '4', '5', '6', '*',
-      '1', '2', '3', '-',
-      '0', '.', '=', '+',
-      'C'
-    ];
-    const container = document.getElementById('botoes');
-    botoes.forEach(valor => {
-      // usa o "componente" com propriedades
-      const btn = document.createElement('button');
-      btn.textContent = buttonComponent.render(valor); 
-      btn.onclick = () => clicar(valor);
-      container.appendChild(btn);
-    });
-  });
+import { ButtonComponent } from "./components/buttonComponent.js";
 
-let display = document.getElementById('display');
+const botoes = [
+  '7', '8', '9', '/',
+  '4', '5', '6', '*',
+  '1', '2', '3', '-',
+  '0', '.', '=', '+',
+  'C'
+];
+
+
+let estado = {
+  display: ''
+};
+
+
+const display = document.getElementById('display');
+const container = document.getElementById('botoes');
+
+
+function setEstado(novoValor) {
+  estado.display = novoValor;
+  display.value = estado.display;
+}
+
 
 function clicar(valor) {
   if (valor === 'C') {
-    display.value = '';
+    setEstado('');
   } else if (valor === '=') {
     try {
-      display.value = eval(display.value);
+      setEstado(eval(estado.display).toString());
     } catch {
-      display.value = 'Erro';
+      setEstado('Erro');
     }
   } else {
-    display.value += valor;
+    setEstado(estado.display + valor);
   }
 }
+
+
+botoes.forEach(valor => {
+  const botao = ButtonComponent(valor, clicar); 
+  container.appendChild(botao);
+});
