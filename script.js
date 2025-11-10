@@ -1,5 +1,16 @@
-import { ButtonComponent } from "./components/buttonComponent.js";
+// =============================
+// 🧩 COMPONENTE: Botão
+// =============================
+function ButtonComponent(valor, aoClicar) {
+  const button = document.createElement("button");
+  button.textContent = valor;
+  button.onclick = () => aoClicar(valor);
+  return button;
+}
 
+// =============================
+// ⚙️ LÓGICA PRINCIPAL
+// =============================
 const botoes = [
   '7', '8', '9', '/',
   '4', '5', '6', '*',
@@ -8,22 +19,22 @@ const botoes = [
   'C'
 ];
 
-
+// 🔁 ESTADO
 let estado = {
   display: ''
 };
 
-
+// Referências do DOM
 const display = document.getElementById('display');
 const container = document.getElementById('botoes');
 
-
+// Atualiza o estado
 function setEstado(novoValor) {
   estado.display = novoValor;
   display.value = estado.display;
 }
 
-
+// Clique nos botões
 function clicar(valor) {
   if (valor === 'C') {
     setEstado('');
@@ -38,8 +49,8 @@ function clicar(valor) {
   }
 }
 
-
+// Renderiza os botões
 botoes.forEach(valor => {
-  const botao = ButtonComponent(valor, clicar); 
+  const botao = ButtonComponent(valor, clicar);
   container.appendChild(botao);
 });
